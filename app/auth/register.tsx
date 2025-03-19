@@ -1,25 +1,9 @@
-
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert } from "react-native"
+import { View, Text, TextInput, StyleSheet, TouchableOpacity } from "react-native"
 import { StatusBar } from "expo-status-bar"
-import { router } from "expo-router"
-import { Ionicons } from "@expo/vector-icons"
-import { useState } from "react"
+import { Link, router } from "expo-router"
+import { Ionicons } from '@expo/vector-icons'
 
-export default function ForgotPasswordScreen() {
-  const [email, setEmail] = useState("")
-
-  const handleResetPassword = () => {
-    if (!email.trim()) {
-      Alert.alert("Error", "Please enter your email address")
-      return
-    }
-
-    // Here you would typically call an API to send a password reset email
-    Alert.alert("Password Reset Email Sent", "Check your email for instructions to reset your password", [
-      { text: "OK", onPress: () => router.push("/login") },
-    ])
-  }
-
+export default function RegisterScreen() {
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
@@ -29,11 +13,16 @@ export default function ForgotPasswordScreen() {
       </TouchableOpacity>
 
       <View style={styles.header}>
-        <Text style={styles.title}>Forgot Password</Text>
-        <Text style={styles.subtitle}>Enter your email to reset your password</Text>
+        <Text style={styles.title}>Register</Text>
+        <Text style={styles.subtitle}>Create an account to manage your system</Text>
       </View>
 
       <View style={styles.form}>
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>Name</Text>
+          <TextInput style={styles.input} placeholder="Enter your name" />
+        </View>
+
         <View style={styles.inputContainer}>
           <Text style={styles.label}>Email</Text>
           <TextInput
@@ -41,25 +30,30 @@ export default function ForgotPasswordScreen() {
             placeholder="Enter your email"
             keyboardType="email-address"
             autoCapitalize="none"
-            value={email}
-            onChangeText={setEmail}
           />
         </View>
 
-        <TouchableOpacity style={styles.resetButton} onPress={handleResetPassword}>
-          <Text style={styles.resetButtonText}>Reset Password</Text>
-        </TouchableOpacity>
-
-        <View style={styles.infoContainer}>
-          <Ionicons name="information-circle-outline" size={20} color="#666" />
-          <Text style={styles.infoText}>We'll send you an email with instructions to reset your password</Text>
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>Password</Text>
+          <TextInput style={styles.input} placeholder="Create a password" secureTextEntry />
         </View>
 
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>Confirm Password</Text>
+          <TextInput style={styles.input} placeholder="Confirm your password" secureTextEntry />
+        </View>
+
+        <TouchableOpacity style={styles.registerButton}>
+          <Text style={styles.registerButtonText}>Register</Text>
+        </TouchableOpacity>
+
         <View style={styles.loginContainer}>
-          <Text style={styles.loginText}>Remember your password? </Text>
-          <TouchableOpacity onPress={() => router.push("/login")}>
-            <Text style={styles.loginLink}>Log in</Text>
-          </TouchableOpacity>
+          <Text style={styles.loginText}>Already have an account? </Text>
+          <Link href="/auth/login" asChild>
+            <TouchableOpacity>
+              <Text style={styles.loginLink}>Log in</Text>
+            </TouchableOpacity>
+          </Link>
         </View>
       </View>
     </View>
@@ -74,17 +68,17 @@ const styles = StyleSheet.create({
   },
   backButton: {
     borderWidth: 1,
-    borderColor: "#1a237e", // viền xanh đậm
-    backgroundColor: "#fff", // nền trắng
+    borderColor: "#1a237e",       // viền xanh đậm
+    backgroundColor: "#fff",      // nền trắng
     paddingHorizontal: 20,
     paddingVertical: 10,
-    borderRadius: 50, // bo tròn pill
+    borderRadius: 50,             // bo tròn pill
     flexDirection: "row",
     alignItems: "center",
-    alignSelf: "flex-start", // để không chiếm hết chiều ngang
+    alignSelf: "flex-start",      // để không chiếm hết chiều ngang
     marginTop: 40,
     marginBottom: 30,
-  },
+  },  
   backIcon: {
     marginRight: 5,
   },
@@ -123,35 +117,21 @@ const styles = StyleSheet.create({
     padding: 12,
     fontSize: 16,
   },
-  resetButton: {
+  registerButton: {
     backgroundColor: "#1a237e",
     paddingVertical: 15,
     borderRadius: 8,
     alignItems: "center",
     marginBottom: 20,
   },
-  resetButtonText: {
+  registerButtonText: {
     color: "white",
     fontWeight: "bold",
     fontSize: 16,
   },
-  infoContainer: {
-    flexDirection: "row",
-    backgroundColor: "#f5f5f5",
-    padding: 15,
-    borderRadius: 8,
-    marginBottom: 20,
-    alignItems: "flex-start",
-  },
-  infoText: {
-    color: "#666",
-    marginLeft: 10,
-    flex: 1,
-  },
   loginContainer: {
     flexDirection: "row",
     justifyContent: "center",
-    marginTop: 20,
   },
   loginText: {
     color: "#666",

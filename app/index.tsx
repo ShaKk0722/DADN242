@@ -1,6 +1,7 @@
 import { View, Text, Image, StyleSheet, TouchableOpacity, SafeAreaView } from "react-native"
 import { StatusBar } from "expo-status-bar"
 import { Link } from "expo-router"
+import { router } from "expo-router"
 
 export default function HomeScreen() {
   return (
@@ -28,17 +29,13 @@ export default function HomeScreen() {
 
         <View style={styles.footer}>
           <View style={styles.buttonContainer}>
-            <Link href="/login" asChild>
-              <TouchableOpacity style={styles.loginButton}>
-                <Text style={styles.loginButtonText}>Log in</Text>
-              </TouchableOpacity>
-            </Link>
+            <TouchableOpacity style={styles.loginButton} onPress={() => router.push("/auth/login")}>
+              <Text style={styles.loginButtonText}>Log in</Text>
+            </TouchableOpacity>
 
-            <Link href="/register" asChild>
-              <TouchableOpacity style={styles.registerButton}>
-                <Text style={styles.registerButtonText}>Register</Text>
-              </TouchableOpacity>
-            </Link>
+            <TouchableOpacity style={styles.registerButton} onPress={() => router.push("/auth/register")}>
+              <Text style={styles.registerButtonText}>Register</Text>
+            </TouchableOpacity>
           </View>
 
           <TouchableOpacity style={styles.menuButton}>

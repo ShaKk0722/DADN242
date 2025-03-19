@@ -34,7 +34,7 @@ export default function LoginScreen() {
         </View>
 
         
-        <Link href="/forgot-password" asChild>
+        <Link href="/auth/forgot-password" asChild>
           <TouchableOpacity style={styles.forgotPassword}>
             <Text style={styles.forgotPasswordText}>Forgot password?</Text>
           </TouchableOpacity>
@@ -46,7 +46,7 @@ export default function LoginScreen() {
 
         <View style={styles.registerContainer}>
           <Text style={styles.registerText}>Don't have an account? </Text>
-          <Link href="/register" asChild>
+          <Link href="/auth/register" asChild>
             <TouchableOpacity>
               <Text style={styles.registerLink}>Register</Text>
             </TouchableOpacity>
