@@ -33,7 +33,7 @@ export default function HomeScreen() {
         {/* Location Card */}
         <TouchableOpacity style={styles.locationCard}>
           <View style={styles.locationInfo}>
-            <Ionicons name="home" size={28} color="white" />
+            <Ionicons name="home" size={35} color="white" />
             <View style={styles.locationTextContainer}>
               <Text style={styles.locationTitle}>Ho Chi Minh City</Text>
               <Text style={styles.locationAddress}>268 Ly Thuong Kiet</Text>
@@ -41,11 +41,11 @@ export default function HomeScreen() {
           </View>
           <View style={styles.locationDetails}>
             <View style={styles.dateTimeContainer}>
-              <Ionicons name="calendar-outline" size={16} color="white" />
+              <Ionicons name="calendar-outline" size={20} color="white" />
               <Text style={styles.dateTimeText}>{currentTime.toLocaleDateString()}</Text>
             </View>
             <View style={styles.dateTimeContainer}>
-              <Ionicons name="time-outline" size={16} color="white" />
+              <Ionicons name="time-outline" size={20} color="white" />
               <Text style={styles.dateTimeText}>{currentTime.toLocaleTimeString()}</Text>
             </View>
           </View>
@@ -53,19 +53,28 @@ export default function HomeScreen() {
 
         {/* Category Icons */}
         <View style={styles.categoryContainer}>
-          <View style={styles.categoryItem}>
-            <Ionicons name="water-outline" size={28} color="#1E88E5" />
-            <Text style={styles.categoryLabel}>Humidity</Text>
-          </View>
-          <View style={styles.categoryItem}>
-            <Ionicons name="sunny-outline" size={28} color="#FFA726" />
-            <Text style={styles.categoryLabel}>Brightness</Text>
-          </View>
-          <View style={styles.categoryItem}>
-            <Ionicons name="thermometer-outline" size={28} color="#E53935" />
-            <Text style={styles.categoryLabel}>Temperature</Text>
-          </View>
+        <View style={styles.categoryItem}>
+        <View style={styles.iconWrapper}>
+        <Ionicons name="thermometer-outline" size={28} color="#E53935" />
         </View>
+        <Text style={styles.categoryLabel}>Temperature</Text>
+        </View>
+
+        <View style={styles.categoryItem}>
+        <View style={styles.iconWrapper}>
+        <Ionicons name="water-outline" size={28} color="#1E88E5" />
+        </View>
+        <Text style={styles.categoryLabel}>Humidity</Text>
+        </View>
+
+        <View style={styles.categoryItem}>
+        <View style={styles.iconWrapper}>
+        <Ionicons name="sunny-outline" size={28} color="#FFA726" />
+        </View>
+        <Text style={styles.categoryLabel}>Brightness</Text>
+        </View>
+        </View>
+
 
         {/* Control Panel */}
         <View style={styles.sectionContainer}>
@@ -75,13 +84,21 @@ export default function HomeScreen() {
           <View style={styles.dataContainer}>
             <Text style={styles.dataTitle}>Temperature</Text>
             <Text style={styles.dataValue}>28 °C</Text>
-            <Text style={styles.dataNote}>+2 độ so với hôm qua</Text>
+            <Text style={styles.dataNote}>Tăng 2 độ so với hôm qua</Text>
           </View>
 
           {/* Humidity */}
           <View style={styles.dataContainer}>
             <Text style={styles.dataTitle}>Humidity</Text>
             <Text style={styles.dataValue}>65%</Text>
+            <Text style={styles.dataNote}>Tăng 2% so với hôm qua</Text>
+          </View>
+
+          {/* Humidity */}
+          <View style={styles.dataContainer}>
+            <Text style={styles.dataTitle}>Brightness</Text>
+            <Text style={styles.dataValue}>100 lux</Text>
+            <Text style={styles.dataNote}>Tăng 2 lux so với hôm qua</Text>
           </View>
         </View>
       </ScrollView>
@@ -104,22 +121,31 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     marginBottom: 20,
-    marginTop: 20,
+    marginTop: 50,
   },
   greeting: {
-    fontSize: 16,
+    fontSize: 20,
     color: "#666",
   },
   userName: {
-    fontSize: 24,
+    fontSize: 30,
     fontWeight: "bold",
     color: "#333",
   },
   profileButton: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
+    width: 60,
+    height: 60,
+    borderRadius: 35,
     backgroundColor: "#FFA500",
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 30,
+    marginLeft: 30,
+  },
+  profileImage: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -157,19 +183,37 @@ const styles = StyleSheet.create({
   },
   dateTimeText: {
     color: "white",
-    fontSize: 12,
+    fontSize: 14,
     marginLeft: 5,
   },
   categoryContainer: {
     flexDirection: "row",
     justifyContent: "space-around",
     marginBottom: 20,
+    marginTop: 12,
   },
   categoryItem: {
     alignItems: "center",
+    backgroundColor: "white",
+    borderRadius: 35,
+    padding: 12,
+  },
+  iconWrapper: {
+    width: 64,
+    height: 64,
+    borderRadius: 32,
+    backgroundColor: '#f9f9f9',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 8,
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 4,
+    elevation: 2, // cho Android đổ bóng
   },
   categoryLabel: {
-    marginTop: 5,
+    marginTop: 6,
     fontSize: 14,
     color: "#333",
   },

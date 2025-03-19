@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#63B4FF1A",
   },
   text: {
-    fontSize: 16,
+    fontSize: 18,
     color: "#8696BB",
   },
   selectedText: {

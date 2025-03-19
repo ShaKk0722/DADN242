@@ -29,7 +29,7 @@ const SettingCard: React.FC<SettingCardProps> = ({ title, description, buttonTex
       <View style={styles.statusRow}>
         <View style={styles.status}>
           <Ionicons name="calendar-outline" size={18} color="#7B8DAB" />
-          <Text style={styles.statusText}> Status: <Text style={{ fontWeight: "bold" }}>{isEnabled ? "On" : "Off"}</Text></Text>
+          <Text style={styles.statusText}> Status: <Text style={{ fontWeight: "bold",color: isEnabled ? "#4CAF50" : "#F44336", fontSize: 16 }}>{isEnabled ? "On" : "Off"}</Text></Text>
         </View>
         <Switch
           value={isEnabled}
@@ -70,19 +70,19 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   icon: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+    width: 50,
+    height: 50,
+    borderRadius: 25,
     backgroundColor: "#E4E7EB",
     marginRight: 10,
   },
   title: {
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: "bold",
     color: "#1F2937",
   },
   description: {
-    fontSize: 14,
+    fontSize: 16,
     color: "#7B8DAB",
   },
   separator: {
@@ -97,8 +97,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   status: {
+    
     flexDirection: "row",
     alignItems: "center",
+    fontSize: 16,
   },
   statusText: {
     fontSize: 14,
