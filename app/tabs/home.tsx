@@ -1,8 +1,18 @@
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, SafeAreaView } from "react-native"
-import { StatusBar } from "expo-status-bar"
-import { Ionicons } from "@expo/vector-icons"
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, SafeAreaView } from "react-native";
+import { StatusBar } from "expo-status-bar";
+import { Ionicons } from "@expo/vector-icons";
+import { useState, useEffect } from "react";
 
 export default function HomeScreen() {
+  const [currentTime, setCurrentTime] = useState(new Date());
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <StatusBar style="auto" />
@@ -15,7 +25,7 @@ export default function HomeScreen() {
           </View>
           <TouchableOpacity style={styles.profileButton}>
             <View style={styles.profileImage}>
-              <Ionicons name="happy-outline" size={24} color="#1a237e" />
+              <Ionicons name="happy-outline" size={28} color="white" />
             </View>
           </TouchableOpacity>
         </View>
@@ -23,36 +33,38 @@ export default function HomeScreen() {
         {/* Location Card */}
         <TouchableOpacity style={styles.locationCard}>
           <View style={styles.locationInfo}>
-            <Ionicons name="home" size={24} color="white" />
+            <Ionicons name="home" size={28} color="white" />
             <View style={styles.locationTextContainer}>
-              <Text style={styles.locationTitle}>Ho Chi Minh city</Text>
-              <Text style={styles.locationAddress}>288 Ly Thuong Kiet</Text>
+              <Text style={styles.locationTitle}>Ho Chi Minh City</Text>
+              <Text style={styles.locationAddress}>268 Ly Thuong Kiet</Text>
             </View>
           </View>
           <View style={styles.locationDetails}>
             <View style={styles.dateTimeContainer}>
               <Ionicons name="calendar-outline" size={16} color="white" />
-              <Text style={styles.dateTimeText}>Sunday, 12 June</Text>
+              <Text style={styles.dateTimeText}>{currentTime.toLocaleDateString()}</Text>
             </View>
             <View style={styles.dateTimeContainer}>
               <Ionicons name="time-outline" size={16} color="white" />
-              <Text style={styles.dateTimeText}>23:58</Text>
+              <Text style={styles.dateTimeText}>{currentTime.toLocaleTimeString()}</Text>
             </View>
           </View>
-          <Ionicons name="chevron-forward" size={24} color="white" style={styles.chevron} />
         </TouchableOpacity>
 
-        {/* Category Buttons */}
+        {/* Category Icons */}
         <View style={styles.categoryContainer}>
-          <TouchableOpacity style={styles.categoryButton}>
-            <Text style={styles.categoryText}>Temperature</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.categoryButton}>
-            <Text style={styles.categoryText}>Humidity</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.categoryButton}>
-            <Text style={styles.categoryText}>Brightness</Text>
-          </TouchableOpacity>
+          <View style={styles.categoryItem}>
+            <Ionicons name="water-outline" size={28} color="#1E88E5" />
+            <Text style={styles.categoryLabel}>Humidity</Text>
+          </View>
+          <View style={styles.categoryItem}>
+            <Ionicons name="sunny-outline" size={28} color="#FFA726" />
+            <Text style={styles.categoryLabel}>Brightness</Text>
+          </View>
+          <View style={styles.categoryItem}>
+            <Ionicons name="thermometer-outline" size={28} color="#E53935" />
+            <Text style={styles.categoryLabel}>Temperature</Text>
+          </View>
         </View>
 
         {/* Control Panel */}
@@ -61,37 +73,20 @@ export default function HomeScreen() {
 
           {/* Temperature */}
           <View style={styles.dataContainer}>
-            <View style={styles.dataHeader}>
-              <Text style={styles.dataTitle}>Temperature</Text>
-              <TouchableOpacity>
-                <Ionicons name="information-circle-outline" size={20} color="#ccc" />
-              </TouchableOpacity>
-            </View>
-            <View style={styles.dataContent}>
-              <Text style={styles.dataValue}>28 ° C</Text>
-              <Text style={styles.dataTime}>
-                <Ionicons name="time-outline" size={14} color="#FFA500" />
-                {" 12 phút vài giây trước"}
-              </Text>
-            </View>
+            <Text style={styles.dataTitle}>Temperature</Text>
+            <Text style={styles.dataValue}>28 °C</Text>
+            <Text style={styles.dataNote}>+2 độ so với hôm qua</Text>
           </View>
 
           {/* Humidity */}
           <View style={styles.dataContainer}>
-            <View style={styles.dataHeader}>
-              <Text style={styles.dataTitle}>Humidity</Text>
-              <TouchableOpacity>
-                <Ionicons name="information-circle-outline" size={20} color="#ccc" />
-              </TouchableOpacity>
-            </View>
-            <View style={styles.dataContent}>
-              <Text style={styles.dataValue}>65%</Text>
-            </View>
+            <Text style={styles.dataTitle}>Humidity</Text>
+            <Text style={styles.dataValue}>65%</Text>
           </View>
         </View>
       </ScrollView>
     </SafeAreaView>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -109,6 +104,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     marginBottom: 20,
+    marginTop: 20,
   },
   greeting: {
     fontSize: 16,
@@ -120,27 +116,18 @@ const styles = StyleSheet.create({
     color: "#333",
   },
   profileButton: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    overflow: "hidden",
-  },
-  profileImage: {
-    width: "100%",
-    height: "100%",
-    backgroundColor: "#f5f5f5",
-    borderRadius: 20,
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: "#FFA500",
     alignItems: "center",
     justifyContent: "center",
-    borderWidth: 2,
-    borderColor: "#FFA500",
   },
   locationCard: {
     backgroundColor: "#1a237e",
     borderRadius: 16,
     padding: 20,
     marginBottom: 20,
-    position: "relative",
   },
   locationInfo: {
     flexDirection: "row",
@@ -163,7 +150,6 @@ const styles = StyleSheet.create({
   locationDetails: {
     flexDirection: "row",
     justifyContent: "space-between",
-    paddingRight: 30,
   },
   dateTimeContainer: {
     flexDirection: "row",
@@ -173,28 +159,19 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 12,
     marginLeft: 5,
-    opacity: 0.8,
-  },
-  chevron: {
-    position: "absolute",
-    right: 15,
-    top: "50%",
-    marginTop: -12,
   },
   categoryContainer: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "space-around",
     marginBottom: 20,
   },
-  categoryButton: {
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    borderRadius: 20,
-    backgroundColor: "#f5f5f5",
+  categoryItem: {
+    alignItems: "center",
   },
-  categoryText: {
-    color: "#666",
+  categoryLabel: {
+    marginTop: 5,
     fontSize: 14,
+    color: "#333",
   },
   sectionContainer: {
     marginBottom: 20,
@@ -206,30 +183,24 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   dataContainer: {
-    marginBottom: 20,
-  },
-  dataHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 10,
+    marginBottom: 5,
+    backgroundColor: "#f9f9f9",
+    padding: 15,
+    borderRadius: 10,
   },
   dataTitle: {
     fontSize: 16,
     color: "#666",
-  },
-  dataContent: {
-    marginBottom: 10,
+    marginBottom: 5,
   },
   dataValue: {
     fontSize: 28,
     fontWeight: "bold",
     color: "#333",
   },
-  dataTime: {
-    fontSize: 12,
+  dataNote: {
+    fontSize: 14,
     color: "#FFA500",
     marginTop: 5,
   },
-})
-
+});
