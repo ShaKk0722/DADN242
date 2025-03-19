@@ -1,13 +1,15 @@
 import { View, Text, TextInput, StyleSheet, TouchableOpacity } from "react-native"
 import { StatusBar } from "expo-status-bar"
 import { Link, router } from "expo-router"
+import { Ionicons } from '@expo/vector-icons'
 
 export default function LoginScreen() {
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
       <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
-        <Text style={styles.backButtonText}>← Back</Text>
+        <Ionicons name="arrow-back" size={20} color="#1a237e" style={styles.backIcon} />
+        <Text style={styles.backButtonText}>Back</Text>
       </TouchableOpacity>
 
       <View style={styles.header}>
@@ -31,9 +33,12 @@ export default function LoginScreen() {
           <TextInput style={styles.input} placeholder="Enter your password" secureTextEntry />
         </View>
 
-        <TouchableOpacity style={styles.forgotPassword}>
-          <Text style={styles.forgotPasswordText}>Forgot password?</Text>
-        </TouchableOpacity>
+        
+        <Link href="/forgot-password" asChild>
+          <TouchableOpacity style={styles.forgotPassword}>
+            <Text style={styles.forgotPasswordText}>Forgot password?</Text>
+          </TouchableOpacity>
+        </Link>
 
         <TouchableOpacity style={styles.loginButton}>
           <Text style={styles.loginButtonText}>Log in</Text>
@@ -59,15 +64,27 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   backButton: {
+    borderWidth: 1,
+    borderColor: "#1a237e",       // viền xanh đậm
+    backgroundColor: "#fff",      // nền trắng
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 50,             // bo tròn pill
+    flexDirection: "row",
+    alignItems: "center",
+    alignSelf: "flex-start",      // để không chiếm hết chiều ngang
     marginTop: 40,
-    marginBottom: 20,
+    marginBottom: 30,
+  },  
+  backIcon: {
+    marginRight: 5,
   },
   backButtonText: {
     fontSize: 16,
     color: "#1a237e",
   },
   header: {
-    marginBottom: 40,
+    marginBottom: 25,
   },
   title: {
     fontSize: 28,
