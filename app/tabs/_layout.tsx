@@ -36,14 +36,14 @@ export default function TabsLayout() {
         }}
       />
       <Tabs.Screen
-        name="settings"
+        name="setting"
         options={{
           tabBarLabel: "Settings",
           tabBarIcon: ({ color, size }) => <Ionicons name="settings-outline" size={size} color={color} />,
         }}
       />
       <Tabs.Screen
-        name="messages"
+        name="message"
         options={{
           tabBarLabel: "Chat",
           tabBarIcon: ({ color, size }) => <Ionicons name="chatbox-ellipses-outline" size={size} color={color} />,
