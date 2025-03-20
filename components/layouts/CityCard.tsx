@@ -1,12 +1,12 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 
-const TemperatureCard = () => {
+const CityCard = ({city = "Ho Chi Minh City", subText = "Current Time", valueText="28°C"}) => {
   return (
     <View style={styles.card}>
-      <Text style={styles.cityText}>Ho Chi Minh City</Text>
-      <Text style={styles.subText}>Current Time</Text>
-      <Text style={styles.temperatureText}>28°C</Text>
+      <Text style={styles.cityText}>{city}</Text>
+      <Text style={styles.subText}>{subText}</Text>
+      <Text style={styles.valueText}>{valueText}</Text>
     </View>
   );
 };
@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     padding: 20,
     borderRadius: 12,
-    width: 340,
+    width: 380,
     alignItems: "center",
     marginVertical: 10,
   },
@@ -29,11 +29,11 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "#8696BB",
   },
-  temperatureText: {
+  valueText: {
     fontSize: 32,
     fontWeight: "bold",
     color: "#333",
   },
 });
 
-export default TemperatureCard;
+export default CityCard;

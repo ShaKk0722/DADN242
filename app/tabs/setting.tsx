@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { View, ScrollView, StyleSheet } from "react-native";
 import WeeklyChart from "../../components/layouts/WeeklyChart";
-import TemperatureCard from "../../components/layouts/TemperatureCard";
-import TemperatureChart from "../../components/layouts/TemperatureChart";
+import CityCard from "../../components/layouts/CityCard";
+import LineChartCard from "../../components/layouts/LineChart";
 import SettingTab from "../../components/layouts/TabSetting";
 import SettingCard from "../../components/layouts/CardSetting";
+import HumidityGauge from "../../components/layouts/HumidityGauge";
 
 export default function SettingScreen() {
   const [selectedTab, setSelectedTab] = useState("Setting");
@@ -25,11 +26,26 @@ export default function SettingScreen() {
 
       {selectedTab === "Temperature" && (
         <ScrollView contentContainerStyle={styles.content}>
-          <TemperatureChart />
-          <TemperatureCard />
+          <LineChartCard />
+          <CityCard />
           <WeeklyChart />
         </ScrollView>
       )}
+
+      {selectedTab === "Humidity" && (
+        <ScrollView contentContainerStyle={styles.content}>
+          <HumidityGauge humidity={10}/>
+          <WeeklyChart title="Weekly Average Humidity" datasets={[{ data: [36, 32, 31, 36, 25, 30, 33] }]}/>
+        </ScrollView>
+      )}
+
+        {selectedTab === "Brightness" && (
+          <ScrollView contentContainerStyle={styles.content}>
+            <LineChartCard title="Light intensity Chart (12 hours)"/>
+            <CityCard valueText="100 lux"/>
+            <WeeklyChart title="Weekly Average Light Intensity" datasets={[{ data: [36, 32, 31, 36, 25, 30, 33] }]}/>
+          </ScrollView>
+        )}
     </View>
   );
 }

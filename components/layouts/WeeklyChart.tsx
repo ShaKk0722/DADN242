@@ -2,18 +2,23 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { BarChart } from "react-native-chart-kit";
 
-const WeeklyChart = () => {
+const WeeklyChart = ({label = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+    datasets = [{ data: [30, 32, 35, 25, 28, 30, 33] }],
+    title = "Weekly Average Temperature"}) => {
   return (
     <View style={styles.card}>
-      <Text style={styles.title}>Weekly Average Temperature</Text>
+      <Text style={styles.title}>{title}</Text>
       <BarChart
         data={{
-          labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-          datasets: [{ data: [30, 32, 35, 25, 28, 30, 33] }],
+          labels: label,
+          datasets: datasets,
         }}
-        width={320}
+        width={400}
         height={200}
+        yAxisLabel=""
         chartConfig={chartConfig}
+        barPercentage={0.2}
+        style={{ marginLeft: -20 }}
       />
     </View>
   );
@@ -31,9 +36,12 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     padding: 16,
     borderRadius: 12,
-    width: 340,
+    width: 380,
     alignItems: "center",
     marginVertical: 10,
+    marginBottom: 10,
+    paddingRight: 35,
+    overflow: "hidden",
   },
   title: {
     fontSize: 16,

@@ -1,34 +1,63 @@
-import React, { useState } from "react";
-import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
+import React, { useRef, useState } from "react";
+import {
+  View,
+  TouchableOpacity,
+  Text,
+  ScrollView,
+  StyleSheet,
+  Dimensions,
+} from "react-native";
+
+const tabs = ["Brightness", "Setting", "Temperature", "Humidity"];
+const screenWidth = Dimensions.get("window").width;
 
 const SettingTab = ({ onSelect }) => {
   const [selectedTab, setSelectedTab] = useState("Setting");
+  const scrollViewRef = useRef<ScrollView>(null);
 
-  const handlePress = (tab: string) => {
+  const handlePress = (tab: string, index: number) => {
     setSelectedTab(tab);
     onSelect(tab);
+
+    // Tính toán vị trí cần cuộn để đưa tab vào giữa màn hình
+    const tabWidth = screenWidth / 3; // Giả sử mỗi tab chiếm khoảng 1/3 màn hình
+    const offset = index * tabWidth - screenWidth / 2 + tabWidth / 2;
+
+    scrollViewRef.current?.scrollTo({ x: offset, animated: true });
   };
 
   return (
     <View style={styles.container}>
-      {["Brightness", "Setting", "Temperature"].map((tab) => (
-        <TouchableOpacity
-          key={tab}
-          style={[styles.tab, selectedTab === tab && styles.selectedTab]}
-          onPress={() => handlePress(tab)}
-        >
-          <Text style={[styles.text, selectedTab === tab && styles.selectedText]}>{tab}</Text>
-        </TouchableOpacity>
-      ))}
+      <ScrollView
+        ref={scrollViewRef}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.scrollContent}
+      >
+        {tabs.map((tab, index) => (
+          <TouchableOpacity
+            key={tab}
+            style={[styles.tab, selectedTab === tab && styles.selectedTab]}
+            onPress={() => handlePress(tab, index)}
+          >
+            <Text style={[styles.text, selectedTab === tab && styles.selectedText]}>
+              {tab}
+            </Text>
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: "row",
-    justifyContent: "center",
     marginVertical: 15,
+  },
+  scrollContent: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 10,
   },
   tab: {
     paddingVertical: 10,
@@ -41,12 +70,12 @@ const styles = StyleSheet.create({
     backgroundColor: "#63B4FF1A",
   },
   text: {
-    fontSize: 18,
+    fontSize: 16,
     color: "#8696BB",
   },
   selectedText: {
     color: "#4894FE",
-    fontWeight: 600,
+    fontWeight: "bold",
   },
 });
 
