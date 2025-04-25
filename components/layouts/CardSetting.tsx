@@ -6,10 +6,116 @@ interface SettingCardProps {
   title: string;
   description: string;
   buttonText?: string;
+  onPressButton?: () => void;
+  conditions?: {
+    temperature?: number;
+    humidity?: number;
+    brightness?: number;
+  };
+  scheduleInfo?: {
+    time?: Date;
+    days?: string[];
+  };
+  isEnabled?: boolean;
+  onToggle?: (value: boolean) => void;
 }
 
-const SettingCard: React.FC<SettingCardProps> = ({ title, description, buttonText }) => {
-  const [isEnabled, setIsEnabled] = useState(false);
+const SettingCard: React.FC<SettingCardProps> = ({ 
+  title, 
+  description, 
+  buttonText, 
+  onPressButton,
+  conditions,
+  scheduleInfo,
+  isEnabled = false,
+  onToggle
+}) => {
+  // Hiển thị thông tin điều kiện
+  const renderConditionsInfo = () => {
+    if (!conditions) {
+      return null;
+    }
+
+    const conditionItems = [];
+
+    if (conditions.temperature !== undefined) {
+      conditionItems.push(
+        <View key="temp" style={styles.conditionItem}>
+          <Ionicons name="thermometer-outline" size={16} color="#FF6B6B" />
+          <Text style={styles.conditionText}>
+            Temp: {conditions.temperature}°C
+          </Text>
+        </View>
+      );
+    }
+
+    if (conditions.humidity !== undefined) {
+      conditionItems.push(
+        <View key="humidity" style={styles.conditionItem}>
+          <Ionicons name="water-outline" size={16} color="#4894FE" />
+          <Text style={styles.conditionText}>
+            Humidity: {conditions.humidity}%
+          </Text>
+        </View>
+      );
+    }
+
+    if (conditions.brightness !== undefined) {
+      conditionItems.push(
+        <View key="brightness" style={styles.conditionItem}>
+          <Ionicons name="sunny-outline" size={16} color="#FFB946" />
+          <Text style={styles.conditionText}>
+            Light: {conditions.brightness} lux
+          </Text>
+        </View>
+      );
+    }
+
+    if (conditionItems.length === 0) {
+      return null;
+    }
+
+    return (
+      <View style={styles.infoBox}>
+        {conditionItems}
+      </View>
+    );
+  };
+
+  // Hiển thị thông tin lịch trình
+  const renderScheduleInfo = () => {
+    if (!scheduleInfo || !scheduleInfo.time || !scheduleInfo.days || scheduleInfo.days.length === 0) {
+      return null;
+    }
+
+    const formatTime = (date: Date) => {
+      return date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+    };
+
+    const formatDays = (days: string[]) => {
+      if (days.length === 0) return "";
+      if (days.length === 7) return "every day";
+      
+      return days.map(day => `every ${day.toLowerCase()}`).join(", ");
+    };
+
+    return (
+      <View style={styles.infoBox}>
+        <View style={styles.conditionItem}>
+          <Ionicons name="time-outline" size={16} color="#4894FE" />
+          <Text style={styles.conditionText}>
+            {formatTime(scheduleInfo.time)}
+          </Text>
+        </View>
+        <View style={styles.conditionItem}>
+          <Ionicons name="calendar-outline" size={16} color="#4CAF50" />
+          <Text style={styles.conditionText}>
+            {formatDays(scheduleInfo.days)}
+          </Text>
+        </View>
+      </View>
+    );
+  };
 
   return (
     <View style={styles.card}>
@@ -33,16 +139,25 @@ const SettingCard: React.FC<SettingCardProps> = ({ title, description, buttonTex
         </View>
         <Switch
           value={isEnabled}
-          onValueChange={() => setIsEnabled(!isEnabled)}
+          onValueChange={onToggle || (() => {})}
           trackColor={{ false: "#E5E7EB", true: "#2AD9D0" }}
           thumbColor="#fff"
         />
       </View>
 
+      {/* Render Schedule Info if available */}
+      {title === "Scheduler Spraying" && renderScheduleInfo()}
+
+      {/* Render Conditions Info if available */}
+      {title === "Environment Auto" && renderConditionsInfo()}
+
       {/* Button */}
       {buttonText && (
         <>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity 
+            style={styles.button}
+            onPress={onPressButton}
+          >
             <Text style={styles.buttonText}>{buttonText}</Text>
           </TouchableOpacity>
         </>
@@ -97,7 +212,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   status: {
-    
     flexDirection: "row",
     alignItems: "center",
     fontSize: 16,
@@ -106,6 +220,22 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginLeft: 5,
     color: "#7B8DAB",
+  },
+  infoBox: {
+    marginTop: 12,
+    backgroundColor: "#F9F9F9",
+    padding: 10,
+    borderRadius: 8,
+  },
+  conditionItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 6,
+  },
+  conditionText: {
+    marginLeft: 8,
+    color: "#1F2937",
+    fontSize: 14,
   },
   button: {
     marginTop: 15,
@@ -116,7 +246,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: "#4894FE",
-    fontWeight: 600,
+    fontWeight: "600",
   },
 });
 

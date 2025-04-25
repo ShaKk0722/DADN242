@@ -1,14 +1,59 @@
 import React, { useState } from "react";
-import { View, ScrollView, StyleSheet } from "react-native";
+import { View, ScrollView, StyleSheet, TouchableOpacity, Text } from "react-native";
 import WeeklyChart from "../../components/layouts/WeeklyChart";
 import CityCard from "../../components/layouts/CityCard";
 import LineChartCard from "../../components/layouts/LineChart";
 import SettingTab from "../../components/layouts/TabSetting";
 import SettingCard from "../../components/layouts/CardSetting";
 import HumidityGauge from "../../components/layouts/HumidityGauge";
+import ScheduleModal from "../../components/modals/ScheduleModal";
+import ConditionsModal from "../../components/modals/ConditionalModal";
 
 export default function SettingScreen() {
   const [selectedTab, setSelectedTab] = useState("Setting");
+  const [scheduleModalVisible, setScheduleModalVisible] = useState(false);
+  const [scheduleTime, setScheduleTime] = useState<Date | null>(null);
+  const [scheduleDays, setScheduleDays] = useState<string[]>([]);
+  const [scheduleEnabled, setScheduleEnabled] = useState(false);
+
+  const [conditionsModalVisible, setConditionsModalVisible] = useState(false);
+  const [conditions, setConditions] = useState<{
+    temperature?: number;
+    humidity?: number;
+    brightness?: number;
+  }>({});
+  const [conditionsEnabled, setConditionsEnabled] = useState(false);
+
+  const handleScheduleDetails = () => {
+    setScheduleModalVisible(true);
+  };
+
+  const handleSetConditions = () => {
+    setConditionsModalVisible(true);
+  };
+
+  const handleSaveSchedule = (time: Date, days: string[]) => {
+    setScheduleTime(time);
+    setScheduleDays(days);
+    // Ở đây bạn có thể lưu lịch trình vào state hoặc gửi đến API
+  };
+
+  const handleSaveConditions = (newConditions: {
+    temperature?: number;
+    humidity?: number;
+    brightness?: number;
+  }) => {
+    setConditions(newConditions);
+    // Ở đây bạn có thể lưu điều kiện vào state hoặc gửi đến API
+  };
+
+  const handleToggleSchedule = (value: boolean) => {
+    setScheduleEnabled(value);
+  };
+
+  const handleToggleConditions = (value: boolean) => {
+    setConditionsEnabled(value);
+  };
 
   return (
     <View style={styles.container}>
@@ -18,8 +63,24 @@ export default function SettingScreen() {
       {selectedTab === "Setting" && (
         <ScrollView contentContainerStyle={styles.content}>
           <SettingCard title="Manual Control" description="Turn on/off without conditions." />
-          <SettingCard title="Scheduler Spraying" description="Based on preset scheduler." buttonText="Schedule Details" />
-          <SettingCard title="Environment Auto" description="Based on temperature, humidity, light." buttonText="Set Conditions" />
+          <SettingCard 
+            title="Scheduler Spraying" 
+            description="Based on preset scheduler." 
+            buttonText="Schedule Details" 
+            onPressButton={handleScheduleDetails}
+            scheduleInfo={scheduleTime ? { time: scheduleTime, days: scheduleDays } : undefined}
+            isEnabled={scheduleEnabled}
+            onToggle={handleToggleSchedule}
+          />
+          <SettingCard 
+            title="Environment Auto" 
+            description="Based on temperature, humidity, light." 
+            buttonText="Set Conditions" 
+            onPressButton={handleSetConditions}
+            conditions={conditions}
+            isEnabled={conditionsEnabled}
+            onToggle={handleToggleConditions}
+          />
           <SettingCard title="Artificial Intelligence" description="Based on AI Model." />
         </ScrollView>
       )}
@@ -39,13 +100,30 @@ export default function SettingScreen() {
         </ScrollView>
       )}
 
-        {selectedTab === "Brightness" && (
-          <ScrollView contentContainerStyle={styles.content}>
-            <LineChartCard title="Light intensity Chart (12 hours)"/>
-            <CityCard valueText="100 lux"/>
-            <WeeklyChart title="Weekly Average Light Intensity" datasets={[{ data: [36, 32, 31, 36, 25, 30, 33] }]}/>
-          </ScrollView>
-        )}
+      {selectedTab === "Brightness" && (
+        <ScrollView contentContainerStyle={styles.content}>
+          <LineChartCard title="Light intensity Chart (12 hours)"/>
+          <CityCard valueText="100 lux"/>
+          <WeeklyChart title="Weekly Average Light Intensity" datasets={[{ data: [36, 32, 31, 36, 25, 30, 33] }]}/>
+        </ScrollView>
+      )}
+
+      {/* Modal lịch trình */}
+      <ScheduleModal
+        visible={scheduleModalVisible}
+        onClose={() => setScheduleModalVisible(false)}
+        onSave={handleSaveSchedule}
+        initialTime={scheduleTime || undefined}
+        initialDays={scheduleDays}
+      />
+
+      {/* Modal điều kiện */}
+      <ConditionsModal
+        visible={conditionsModalVisible}
+        onClose={() => setConditionsModalVisible(false)}
+        onSave={handleSaveConditions}
+        initialConditions={conditions}
+      />
     </View>
   );
 }
@@ -55,12 +133,10 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#f9f9f9",
     marginTop: 40,
-
   },
   content: {
     marginTop: 20,
     paddingBottom: 10,
     alignItems: "center",
-    
   },
 });
