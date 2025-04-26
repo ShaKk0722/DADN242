@@ -8,6 +8,7 @@ import SettingCard from "../../components/layouts/CardSetting";
 import HumidityGauge from "../../components/layouts/HumidityGauge";
 import ScheduleModal from "../../components/modals/ScheduleModal";
 import ConditionsModal from "../../components/modals/ConditionalModal";
+import SettingCardDefault from "../../components/layouts/CardSettingDefault";
 
 export default function SettingScreen() {
   const [selectedTab, setSelectedTab] = useState("Setting");
@@ -62,7 +63,7 @@ export default function SettingScreen() {
 
       {selectedTab === "Setting" && (
         <ScrollView contentContainerStyle={styles.content}>
-          <SettingCard title="Manual Control" description="Turn on/off without conditions." />
+          <SettingCardDefault title="Manual Control" description="Turn on/off without conditions." />
           <SettingCard 
             title="Scheduler Spraying" 
             description="Based on preset scheduler." 
@@ -81,7 +82,7 @@ export default function SettingScreen() {
             isEnabled={conditionsEnabled}
             onToggle={handleToggleConditions}
           />
-          <SettingCard title="Artificial Intelligence" description="Based on AI Model." />
+          <SettingCardDefault title="Artificial Intelligence" description="Based on AI Model." />
         </ScrollView>
       )}
 
